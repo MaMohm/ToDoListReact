@@ -142,9 +142,9 @@ const TaskManager = () => {
 
   const getPriorityColor = (p) => {
     switch (p) {
-      case 'Urgent': return 'bg-red-500 text-white shadow-red-200';
-      case 'Normal': return 'bg-blue-500 text-white shadow-blue-200';
-      default: return 'bg-gray-400 text-white shadow-gray-200';
+      case 'Urgent': return 'text-red-600 dark:text-red-400 font-extrabold tracking-wide bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 shadow-sm';
+      case 'Normal': return 'text-blue-600 dark:text-blue-400 font-bold tracking-wide bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 shadow-sm';
+      default: return 'text-gray-500 dark:text-gray-400 font-bold tracking-wide bg-gray-50 dark:bg-gray-800/20 border border-gray-100 dark:border-gray-700 shadow-sm';
     }
   };
 
@@ -187,26 +187,31 @@ const TaskManager = () => {
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside className={`
-        fixed md:relative flex flex-col z-40 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none
+        fixed md:relative flex flex-col z-50 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 h-full transition-all duration-300 ease-in-out shadow-2xl md:shadow-none
         ${sidebarOpen ? 'translate-x-0 w-64' : '-translate-x-full md:translate-x-0 md:w-20'}
         ${document.dir === 'rtl' ? (sidebarOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0') : ''}
       `}>
-        <div className="h-16 flex items-center px-6 border-b border-gray-100 dark:border-gray-700 gap-3 shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shrink-0 text-white">
-            <CheckCircle2 size={20} />
+        <div className="h-16 flex items-center justify-between px-6 border-b border-gray-100 dark:border-gray-700 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shrink-0 text-white">
+              <CheckCircle2 size={20} />
+            </div>
+            {(sidebarOpen || window.innerWidth >= 768) && (
+              <span className={`font-bold text-xl text-indigo-900 dark:text-white whitespace-nowrap transition-opacity duration-200 ${!sidebarOpen && 'md:hidden'}`}>
+                {t('app_name')}
+              </span>
+            )}
           </div>
-          {(sidebarOpen || window.innerWidth >= 768) && (
-            <span className={`font-bold text-xl text-indigo-900 dark:text-white whitespace-nowrap transition-opacity duration-200 ${!sidebarOpen && 'md:hidden'}`}>
-              {t('app_name')}
-            </span>
-          )}
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden p-1 text-gray-500 hover:bg-gray-100 rounded-lg dark:text-gray-400 dark:hover:bg-gray-700">
+            <X size={20} />
+          </button>
         </div>
 
         <nav className="flex-1 py-6 px-3">
