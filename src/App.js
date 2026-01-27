@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Plus, Trash2, CheckCircle2, Search, Menu, Tag, Layout, Volume2, Globe, X, Clock, Sun, Moon
+  Plus, Trash2, CheckCircle2, Search, Menu, Tag, Layout, Volume2, Globe, X, Clock, Sun, Moon, Calendar, AlertCircle
 } from 'lucide-react';
 
 const STORAGE_KEY = 'tasklyDailyData';
@@ -35,7 +35,7 @@ const TRANSLATIONS = {
     cat_personal: 'Personal', cat_work: 'Work', cat_urgent: 'Urgent', cat_health: 'Health',
     cat_shopping: 'Shopping', cat_learning: 'Learning', cat_finance: 'Finance', cat_social: 'Social', cat_family: 'Family',
     prio_low: 'Low', prio_medium: 'Normal', prio_high: 'Urgent',
-    copy: '© 2026 Developed by Marwan.M'
+    copy: '© 2026 Developed by Marwan.M', hour: 'Hour', minute: 'Minute'
   },
   ar: {
     app_name: 'تاسكلي ديلي', overview: 'نظرة عامة', protip: 'نصيحة 💡', protip_desc: 'رتب مهامك بذكاء!',
@@ -48,18 +48,18 @@ const TRANSLATIONS = {
     cat_personal: 'شخصي', cat_work: 'عمل', cat_urgent: 'عاجل', cat_health: 'صحة',
     cat_shopping: 'تسوق', cat_learning: 'تعلم', cat_finance: 'مالية', cat_social: 'اجتماعي', cat_family: 'عائلة',
     prio_low: 'منخفض', prio_medium: 'عادي', prio_high: 'عاجل',
-    copy: '© 2026 تطوير Marwan.M'
+    copy: '© 2026 تطوير Marwan.M', hour: 'ساعة', minute: 'دقيقة'
   },
-  fr: { app_name: 'Taskly Daily', overview: 'Aperçu', protip: 'Astuce 💡', protip_desc: 'Organisez vos tâches !', dashboard: 'Tableau de bord', search: 'Recherche...', status_all: 'Tous', cats_all: 'Toutes', add: 'Ajouter', notasks: 'Aucune tâche', notasks_sub: 'Créez-en une !', progress: 'En cours', done: 'Fini', delete: 'Supprimer', create_title: 'Nouvelle Tâche', title: 'Titre', title_ph: 'ex. Sport', cat: 'Catégorie', prio: 'Priorité', due: 'Date', time: 'Heure', notes: 'Notes', notes_ph: 'Détails...', cancel: 'Annuler', create_btn: 'Créer', cat_personal: 'Perso', cat_work: 'Travail', cat_urgent: 'Urgent', cat_health: 'Santé', cat_shopping: 'Achats', cat_learning: 'Apprentissage', cat_finance: 'Finance', cat_social: 'Social', cat_family: 'Famille', prio_low: 'Bas', prio_medium: 'Normal', prio_high: 'Urgent', copy: '© 2026 Marwan.M' },
-  nl: { app_name: 'Taskly Daily', overview: 'Overzicht', protip: 'Tip 💡', protip_desc: 'Categoriseer taken!', dashboard: 'Dashboard', search: 'Zoeken...', status_all: 'Alles', cats_all: 'Alle', add: 'Taak', notasks: 'Geen taken', notasks_sub: 'Maak er een!', progress: 'Bezig', done: 'Klaar', delete: 'Wissen', create_title: 'Nieuwe Taak', title: 'Titel', title_ph: 'bv. Sport', cat: 'Categorie', prio: 'Prioriteit', due: 'Datum', time: 'Tijd', notes: 'Notities', notes_ph: 'Details...', cancel: 'Annuleren', create_btn: 'Maken', cat_personal: 'Privé', cat_work: 'Werk', cat_urgent: 'Dringend', cat_health: 'Gezondheid', cat_shopping: 'Winkelen', cat_learning: 'Leren', cat_finance: 'Financiën', cat_social: 'Sociaal', cat_family: 'Familie', prio_low: 'Laag', prio_medium: 'Normaal', prio_high: 'Dringend', copy: '© 2026 Marwan.M' },
-  it: { app_name: 'Taskly Daily', overview: 'Panoramica', protip: 'Consiglio 💡', protip_desc: 'Categorizza le attività!', dashboard: 'Cruscotto', search: 'Cerca...', status_all: 'Tutti', cats_all: 'Tutte', add: 'Nuova', notasks: 'Nessuna attività', notasks_sub: 'Creane una!', progress: 'In corso', done: 'Fatto', delete: 'Elimina', create_title: 'Crea Attività', title: 'Titolo', title_ph: 'es. Palestra', cat: 'Categoria', prio: 'Priorità', due: 'Scadenza', time: 'Ora', notes: 'Note', notes_ph: 'Dettagli...', cancel: 'Annulla', create_btn: 'Crea', cat_personal: 'Personale', cat_work: 'Lavoro', cat_urgent: 'Urgente', cat_health: 'Salute', cat_shopping: 'Spesa', cat_learning: 'Studio', cat_finance: 'Finanza', cat_social: 'Sociale', cat_family: 'Famiglia', prio_low: 'Bassa', prio_medium: 'Normale', prio_high: 'Urgente', copy: '© 2026 Sviluppato da Marwan.M' },
-  tr: { app_name: 'Taskly Daily', overview: 'Genel Bakış', protip: 'İpucu 💡', protip_desc: 'Görevlerini kategorize et!', dashboard: 'Panel', search: 'Ara...', status_all: 'Hepsi', cats_all: 'Tümü', add: 'Yeni Görev', notasks: 'Görev yok', notasks_sub: 'Yeni bir tane oluştur!', progress: 'Sürüyor', done: 'Tamamlandı', delete: 'Sil', create_title: 'Görev Oluştur', title: 'Başlık', title_ph: 'örn. Spor', cat: 'Kategori', prio: 'Öncelik', due: 'Tarih', time: 'Saat', notes: 'Notlar', notes_ph: 'Detaylar...', cancel: 'İptal', create_btn: 'Oluştur', cat_personal: 'Kişisel', cat_work: 'İş', cat_urgent: 'Acil', cat_health: 'Sağlık', cat_shopping: 'Alışveriş', cat_learning: 'Öğrenme', cat_finance: 'Finans', cat_social: 'Sosyal', cat_family: 'Aile', prio_low: 'Düşük', prio_medium: 'Normal', prio_high: 'Acil', copy: '© 2026 Marwan.M tarafından geliştirildi' },
-  es: { app_name: 'Taskly Daily', overview: 'Resumen', protip: 'Consejo 💡', protip_desc: '¡Organiza tus tareas!', dashboard: 'Tablero', search: 'Buscar...', status_all: 'Todos', cats_all: 'Todas', add: 'Nueva Tarea', notasks: 'Sin tareas', notasks_sub: '¡Crea una!', progress: 'En curso', done: 'Hecho', delete: 'Borrar', create_title: 'Crear Tarea', title: 'Título', title_ph: 'ej. Gimnasio', cat: 'Categoría', prio: 'Prioridad', due: 'Fecha', time: 'Hora', notes: 'Notas', notes_ph: 'Detalles...', cancel: 'Cancelar', create_btn: 'Crear', cat_personal: 'Personal', cat_work: 'Trabajo', cat_urgent: 'Urgente', cat_health: 'Salud', cat_shopping: 'Compras', cat_learning: 'Estudio', cat_finance: 'Finanzas', cat_social: 'Social', cat_family: 'Familia', prio_low: 'Baja', prio_medium: 'Normal', prio_high: 'Urgente', copy: '© 2026 Desarrollado por Marwan.M' },
-  de: { app_name: 'Taskly Daily', overview: 'Übersicht', protip: 'Tipp 💡', protip_desc: 'Kategorisiere Aufgaben!', dashboard: 'Dashboard', search: 'Suchen...', status_all: 'Alle', cats_all: 'Alle', add: 'Neue Aufgabe', notasks: 'Keine Aufgaben', notasks_sub: 'Erstelle eine!', progress: 'In Arbeit', done: 'Fertig', delete: 'Löschen', create_title: 'Erstellen', title: 'Titel', title_ph: 'z.B. Sport', cat: 'Kategorie', prio: 'Priorität', due: 'Datum', time: 'Uhrzeit', notes: 'Notizen', notes_ph: 'Details...', cancel: 'Abbrechen', create_btn: 'Erstellen', cat_personal: 'Privat', cat_work: 'Arbeit', cat_urgent: 'Dringend', cat_health: 'Gesundheit', cat_shopping: 'Einkaufen', cat_learning: 'Lernen', cat_finance: 'Finanzen', cat_social: 'Sozial', cat_family: 'Familie', prio_low: 'Niedrig', prio_medium: 'Normal', prio_high: 'Dringend', copy: '© 2026 Entwickelt von Marwan.M' },
-  zh: { app_name: 'Taskly Daily', overview: '概览', protip: '提示 💡', protip_desc: '分类您的任务！', dashboard: '仪表板', search: '搜索...', status_all: '全部', cats_all: '全部', add: '新任务', notasks: '无任务', notasks_sub: '创建一个！', progress: '进行中', done: '完成', delete: '删除', create_title: '创建任务', title: '标题', title_ph: '例如：健身', cat: '类别', prio: '优先级', due: '日期', time: '时间', notes: '备注', notes_ph: '详情...', cancel: '取消', create_btn: '创建', cat_personal: '个人', cat_work: '工作', cat_urgent: '紧急', cat_health: '健康', cat_shopping: '购物', cat_learning: '学习', cat_finance: '财务', cat_social: '社交', cat_family: '家庭', prio_low: '低', prio_medium: '正常', prio_high: '紧急', copy: '© 2026 由 Marwan.M 开发' },
-  ru: { app_name: 'Taskly Daily', overview: 'Обзор', protip: 'Совет 💡', protip_desc: 'Категоризируй!', dashboard: 'Доска', search: 'Поиск...', status_all: 'Все', cats_all: 'Все', add: 'Задача', notasks: 'Нет задач', notasks_sub: 'Создай новую!', progress: 'В процессе', done: 'Готово', delete: 'Удалить', create_title: 'Создать', title: 'Название', title_ph: 'напр. Спорт', cat: 'Категория', prio: 'Приоритет', due: 'Дата', time: 'Время', notes: 'Заметки', notes_ph: 'Детали...', cancel: 'Отмена', create_btn: 'Создать', cat_personal: 'Личное', cat_work: 'Работа', cat_urgent: 'Срочно', cat_health: 'Здоровье', cat_shopping: 'Покупки', cat_learning: 'Обучение', cat_finance: 'Финансы', cat_social: 'Социальное', cat_family: 'Семья', prio_low: 'Низкий', prio_medium: 'Норм', prio_high: 'Срочно', copy: '© 2026 Разработано Marwan.M' },
-  pt: { app_name: 'Taskly Daily', overview: 'Visão Geral', protip: 'Dica 💡', protip_desc: 'Categorize!', dashboard: 'Painel', search: 'Buscar...', status_all: 'Todos', cats_all: 'Todas', add: 'Nova Tarefa', notasks: 'Sem tarefas', notasks_sub: 'Crie uma!', progress: 'Em andamento', done: 'Feito', delete: 'Excluir', create_title: 'Criar', title: 'Título', title_ph: 'ex. Treino', cat: 'Categoria', prio: 'Prioridade', due: 'Data', time: 'Hora', notes: 'Notas', notes_ph: 'Detalhes...', cancel: 'Cancelar', create_btn: 'Criar', cat_personal: 'Pessoal', cat_work: 'Trabalho', cat_urgent: 'Urgente', cat_health: 'Saúde', cat_shopping: 'Compras', cat_learning: 'Aprendizado', cat_finance: 'Finanças', cat_social: 'Social', cat_family: 'Família', prio_low: 'Baixa', prio_medium: 'Normal', prio_high: 'Urgente', copy: '© 2026 Desenvolvido por Marwan.M' },
-  ur: { app_name: 'ٹاسکلی ڈیلی', overview: 'جائزہ', protip: 'ٹپ 💡', protip_desc: 'کاموں کی درجہ بندی کریں!', dashboard: 'ڈیش بورڈ', search: 'تلاش...', status_all: 'سب', cats_all: 'سب', add: 'نیا کام', notasks: 'کوئی کام نہیں', notasks_sub: 'نیا بنائیں!', progress: 'جاری', done: 'مکمل', delete: 'حذف', create_title: 'نیا کام', title: 'عنوان', title_ph: 'مثال: ورزش', cat: 'زمرہ', prio: 'ترجیح', due: 'تاریخ', time: 'وقت', notes: 'نوٹس', notes_ph: 'تفصیلات...', cancel: 'منسوخ', create_btn: 'بنائیں', cat_personal: 'ذاتی', cat_work: 'کام', cat_urgent: 'فوری', cat_health: 'صحت', cat_shopping: 'خریداری', cat_learning: 'سیکھنا', cat_finance: 'مالیات', cat_social: 'سماجی', cat_family: 'خاندان', prio_low: 'کم', prio_medium: 'درمیانی', prio_high: 'فوری', copy: '© 2026 تیار کردہ از Marwan.M' },
+  fr: { app_name: 'Taskly Daily', overview: 'Aperçu', protip: 'Astuce 💡', protip_desc: 'Organisez vos tâches !', dashboard: 'Tableau de bord', search: 'Recherche...', status_all: 'Tous', cats_all: 'Toutes', add: 'Ajouter', notasks: 'Aucune tâche', notasks_sub: 'Créez-en une !', progress: 'En cours', done: 'Fini', delete: 'Supprimer', create_title: 'Nouvelle Tâche', title: 'Titre', title_ph: 'ex. Sport', cat: 'Catégorie', prio: 'Priorité', due: 'Date', time: 'Heure', notes: 'Notes', notes_ph: 'Détails...', cancel: 'Annuler', create_btn: 'Créer', cat_personal: 'Perso', cat_work: 'Travail', cat_urgent: 'Urgent', cat_health: 'Santé', cat_shopping: 'Achats', cat_learning: 'Apprentissage', cat_finance: 'Finance', cat_social: 'Social', cat_family: 'Famille', prio_low: 'Bas', prio_medium: 'Normal', prio_high: 'Urgent', copy: '© 2026 Marwan.M', hour: 'Heure', minute: 'Minute' },
+  nl: { app_name: 'Taskly Daily', overview: 'Overzicht', protip: 'Tip 💡', protip_desc: 'Categoriseer taken!', dashboard: 'Dashboard', search: 'Zoeken...', status_all: 'Alles', cats_all: 'Alle', add: 'Taak', notasks: 'Geen taken', notasks_sub: 'Maak er een!', progress: 'Bezig', done: 'Klaar', delete: 'Wissen', create_title: 'Nieuwe Taak', title: 'Titel', title_ph: 'bv. Sport', cat: 'Categorie', prio: 'Prioriteit', due: 'Datum', time: 'Tijd', notes: 'Notities', notes_ph: 'Details...', cancel: 'Annuleren', create_btn: 'Maken', cat_personal: 'Privé', cat_work: 'Werk', cat_urgent: 'Dringend', cat_health: 'Gezondheid', cat_shopping: 'Winkelen', cat_learning: 'Leren', cat_finance: 'Financiën', cat_social: 'Sociaal', cat_family: 'Familie', prio_low: 'Laag', prio_medium: 'Normaal', prio_high: 'Dringend', copy: '© 2026 Marwan.M', hour: 'Uur', minute: 'Minuut' },
+  it: { app_name: 'Taskly Daily', overview: 'Panoramica', protip: 'Consiglio 💡', protip_desc: 'Categorizza le attività!', dashboard: 'Cruscotto', search: 'Cerca...', status_all: 'Tutti', cats_all: 'Tutte', add: 'Nuova', notasks: 'Nessuna attività', notasks_sub: 'Creane una!', progress: 'In corso', done: 'Fatto', delete: 'Elimina', create_title: 'Crea Attività', title: 'Titolo', title_ph: 'es. Palestra', cat: 'Categoria', prio: 'Priorità', due: 'Scadenza', time: 'Ora', notes: 'Note', notes_ph: 'Dettagli...', cancel: 'Annulla', create_btn: 'Crea', cat_personal: 'Personale', cat_work: 'Lavoro', cat_urgent: 'Urgente', cat_health: 'Salute', cat_shopping: 'Spesa', cat_learning: 'Studio', cat_finance: 'Finanza', cat_social: 'Sociale', cat_family: 'Famiglia', prio_low: 'Bassa', prio_medium: 'Normale', prio_high: 'Urgente', copy: '© 2026 Sviluppato da Marwan.M', hour: 'Ora', minute: 'Minuto' },
+  tr: { app_name: 'Taskly Daily', overview: 'Genel Bakış', protip: 'İpucu 💡', protip_desc: 'Görevlerini kategorize et!', dashboard: 'Panel', search: 'Ara...', status_all: 'Hepsi', cats_all: 'Tümü', add: 'Yeni Görev', notasks: 'Görev yok', notasks_sub: 'Yeni bir tane oluştur!', progress: 'Sürüyor', done: 'Tamamlandı', delete: 'Sil', create_title: 'Görev Oluştur', title: 'Başlık', title_ph: 'örn. Spor', cat: 'Kategori', prio: 'Öncelik', due: 'Tarih', time: 'Saat', notes: 'Notlar', notes_ph: 'Detaylar...', cancel: 'İptal', create_btn: 'Oluştur', cat_personal: 'Kişisel', cat_work: 'İş', cat_urgent: 'Acil', cat_health: 'Sağlık', cat_shopping: 'Alışveriş', cat_learning: 'Öğrenme', cat_finance: 'Finans', cat_social: 'Sosyal', cat_family: 'Aile', prio_low: 'Düşük', prio_medium: 'Normal', prio_high: 'Acil', copy: '© 2026 Marwan.M tarafından geliştirildi', hour: 'Saat', minute: 'Dakika' },
+  es: { app_name: 'Taskly Daily', overview: 'Resumen', protip: 'Consejo 💡', protip_desc: '¡Organiza tus tareas!', dashboard: 'Tablero', search: 'Buscar...', status_all: 'Todos', cats_all: 'Todas', add: 'Nueva Tarea', notasks: 'Sin tareas', notasks_sub: '¡Crea una!', progress: 'En curso', done: 'Hecho', delete: 'Borrar', create_title: 'Crear Tarea', title: 'Título', title_ph: 'ej. Gimnasio', cat: 'Categoría', prio: 'Prioridad', due: 'Fecha', time: 'Hora', notes: 'Notas', notes_ph: 'Detalles...', cancel: 'Cancelar', create_btn: 'Crear', cat_personal: 'Personal', cat_work: 'Trabajo', cat_urgent: 'Urgente', cat_health: 'Salud', cat_shopping: 'Compras', cat_learning: 'Estudio', cat_finance: 'Finanzas', cat_social: 'Social', cat_family: 'Familia', prio_low: 'Baja', prio_medium: 'Normal', prio_high: 'Urgente', copy: '© 2026 Desarrollado por Marwan.M', hour: 'Hora', minute: 'Minuto' },
+  de: { app_name: 'Taskly Daily', overview: 'Übersicht', protip: 'Tipp 💡', protip_desc: 'Kategorisiere Aufgaben!', dashboard: 'Dashboard', search: 'Suchen...', status_all: 'Alle', cats_all: 'Alle', add: 'Neue Aufgabe', notasks: 'Keine Aufgaben', notasks_sub: 'Erstelle eine!', progress: 'In Arbeit', done: 'Fertig', delete: 'Löschen', create_title: 'Erstellen', title: 'Titel', title_ph: 'z.B. Sport', cat: 'Kategorie', prio: 'Priorität', due: 'Datum', time: 'Uhrzeit', notes: 'Notizen', notes_ph: 'Details...', cancel: 'Abbrechen', create_btn: 'Erstellen', cat_personal: 'Privat', cat_work: 'Arbeit', cat_urgent: 'Dringend', cat_health: 'Gesundheit', cat_shopping: 'Einkaufen', cat_learning: 'Lernen', cat_finance: 'Finanzen', cat_social: 'Sozial', cat_family: 'Familie', prio_low: 'Niedrig', prio_medium: 'Normal', prio_high: 'Dringend', copy: '© 2026 Entwickelt von Marwan.M', hour: 'Stunde', minute: 'Minute' },
+  zh: { app_name: 'Taskly Daily', overview: '概览', protip: '提示 💡', protip_desc: '分类您的任务！', dashboard: '仪表板', search: '搜索...', status_all: '全部', cats_all: '全部', add: '新任务', notasks: '无任务', notasks_sub: '创建一个！', progress: '进行中', done: '完成', delete: '删除', create_title: '创建任务', title: '标题', title_ph: '例如：健身', cat: '类别', prio: '优先级', due: '日期', time: '时间', notes: '备注', notes_ph: '详情...', cancel: '取消', create_btn: '创建', cat_personal: '个人', cat_work: '工作', cat_urgent: '紧急', cat_health: '健康', cat_shopping: '购物', cat_learning: '学习', cat_finance: '财务', cat_social: '社交', cat_family: '家庭', prio_low: '低', prio_medium: '正常', prio_high: '紧急', copy: '© 2026 由 Marwan.M 开发', hour: '小时', minute: '分钟' },
+  ru: { app_name: 'Taskly Daily', overview: 'Обзор', protip: 'Совет 💡', protip_desc: 'Категоризируй!', dashboard: 'Доска', search: 'Поиск...', status_all: 'Все', cats_all: 'Все', add: 'Задача', notasks: 'Нет задач', notasks_sub: 'Создай новую!', progress: 'В процессе', done: 'Готово', delete: 'Удалить', create_title: 'Создать', title: 'Название', title_ph: 'напр. Спорт', cat: 'Категория', prio: 'Приоритет', due: 'Дата', time: 'Время', notes: 'Заметки', notes_ph: 'Детали...', cancel: 'Отмена', create_btn: 'Создать', cat_personal: 'Личное', cat_work: 'Работа', cat_urgent: 'Срочно', cat_health: 'Здоровье', cat_shopping: 'Покупки', cat_learning: 'Обучение', cat_finance: 'Финансы', cat_social: 'Социальное', cat_family: 'Семья', prio_low: 'Низкий', prio_medium: 'Норм', prio_high: 'Срочно', copy: '© 2026 Разработано Marwan.M', hour: 'Час', minute: 'Минута' },
+  pt: { app_name: 'Taskly Daily', overview: 'Visão Geral', protip: 'Dica 💡', protip_desc: 'Categorize!', dashboard: 'Painel', search: 'Buscar...', status_all: 'Todos', cats_all: 'Todas', add: 'Nova Tarefa', notasks: 'Sem tarefas', notasks_sub: 'Crie uma!', progress: 'Em andamento', done: 'Feito', delete: 'Excluir', create_title: 'Criar', title: 'Título', title_ph: 'ex. Treino', cat: 'Categoria', prio: 'Prioridade', due: 'Data', time: 'Hora', notes: 'Notas', notes_ph: 'Detalhes...', cancel: 'Cancelar', create_btn: 'Criar', cat_personal: 'Pessoal', cat_work: 'Trabalho', cat_urgent: 'Urgente', cat_health: 'Saúde', cat_shopping: 'Compras', cat_learning: 'Aprendizado', cat_finance: 'Finanças', cat_social: 'Social', cat_family: 'Família', prio_low: 'Baixa', prio_medium: 'Normal', prio_high: 'Urgente', copy: '© 2026 Desenvolvido por Marwan.M', hour: 'Hora', minute: 'Minuto' },
+  ur: { app_name: 'ٹاسکلی ڈیلی', overview: 'جائزہ', protip: 'ٹپ 💡', protip_desc: 'کاموں کی درجہ بندی کریں!', dashboard: 'ڈیش بورڈ', search: 'تلاش...', status_all: 'سب', cats_all: 'سب', add: 'نیا کام', notasks: 'کوئی کام نہیں', notasks_sub: 'نیا بنائیں!', progress: 'جاری', done: 'مکمل', delete: 'حذف', create_title: 'نیا کام', title: 'عنوان', title_ph: 'مثال: ورزش', cat: 'زمرہ', prio: 'ترجیح', due: 'تاریخ', time: 'وقت', notes: 'نوٹس', notes_ph: 'تفصیلات...', cancel: 'منسوخ', create_btn: 'بنائیں', cat_personal: 'ذاتی', cat_work: 'کام', cat_urgent: 'فوری', cat_health: 'صحت', cat_shopping: 'خریداری', cat_learning: 'سیکھنا', cat_finance: 'مالیات', cat_social: 'سماجی', cat_family: 'خاندان', prio_low: 'کم', prio_medium: 'درمیانی', prio_high: 'فوری', copy: '© 2026 تیار کردہ از Marwan.M', hour: 'گھنٹہ', minute: 'منٹ' },
 };
 
 const playSuccessSound = () => {
@@ -142,9 +142,9 @@ const TaskManager = () => {
 
   const getPriorityColor = (p) => {
     switch (p) {
-      case 'Urgent': return 'text-red-700 bg-red-100 border-red-200 dark:bg-red-900/50 dark:text-red-300 dark:border-red-800';
-      case 'Normal': return 'text-blue-700 bg-blue-100 border-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:border-blue-800';
-      default: return 'text-gray-700 bg-gray-100 border-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600';
+      case 'Urgent': return 'bg-red-500 text-white shadow-red-200';
+      case 'Normal': return 'bg-blue-500 text-white shadow-blue-200';
+      default: return 'bg-gray-400 text-white shadow-gray-200';
     }
   };
 
@@ -165,6 +165,21 @@ const TaskManager = () => {
   };
 
   const categories = ['Personal', 'Work', 'Urgent', 'Health', 'Shopping', 'Learning', 'Finance', 'Social', 'Family'];
+
+  // Helper for generating Time string from selects
+  const handleTimeChange = (type, value) => {
+    let [h, m] = (newTask.dueTime || '00:00').split(':');
+    if (!h) h = '00';
+    if (!m) m = '00';
+
+    if (type === 'hour') h = value;
+    if (type === 'minute') m = value;
+
+    setNewTask({ ...newTask, dueTime: `${h}:${m}` });
+  };
+
+  const currentHour = newTask.dueTime ? newTask.dueTime.split(':')[0] : '';
+  const currentMinute = newTask.dueTime ? newTask.dueTime.split(':')[1] : '';
 
   return (
     <div className="min-h-screen bg-[#F3F4F6] dark:bg-gray-900 flex font-sans text-gray-800 dark:text-gray-100 transition-colors duration-300 overflow-hidden relative">
@@ -277,50 +292,94 @@ const TaskManager = () => {
                   <Layout className="text-gray-300 dark:text-gray-600 mb-4" size={64} /><p className="text-lg font-medium">{t('notasks')}</p><p className="text-sm">{t('notasks_sub')}</p>
                 </div>
               ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[600px]">
-                    <thead className="bg-gray-50/50 dark:bg-gray-700/30">
-                      <tr className="text-start text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        <th className="px-6 py-4 text-start">{t('title')}</th>
-                        <th className="px-6 py-4 text-start">{t('progress')}</th>
-                        <th className="px-6 py-4 text-start">{t('cat')}</th>
-                        <th className="px-6 py-4 text-start">{t('prio')}</th>
-                        <th className="px-6 py-4 text-start">{t('due')}</th>
-                        <th className="px-6 py-4 text-end">{t('delete')}</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                      {filteredTasks.map(task => (
-                        <tr key={task.id} className="group hover:bg-white/80 dark:hover:bg-gray-700/50 transition-colors">
-                          <td className="px-6 py-4">
-                            <div className="flex items-center gap-3">
-                              <button onClick={() => updateTaskStatus(task.id, task.status === 'Completed' ? 'In Progress' : 'Completed')} className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${task.status === 'Completed' ? 'bg-green-500 border-green-500 scale-110' : 'border-gray-300 dark:border-gray-500 hover:border-indigo-500'}`}>
-                                {task.status === 'Completed' && <CheckCircle2 size={12} className="text-white" />}
-                              </button>
-                              <div>
-                                <p className={`font-medium ${task.status === 'Completed' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-white'}`}>{task.title}</p>
-                                {task.description && <p className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[200px]">{task.description}</p>}
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4"><span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${task.status === 'Completed' ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'}`}>{task.status === 'Completed' ? t('done') : t('progress')}</span></td>
-                          <td className="px-6 py-4"><div className="flex items-center gap-2"><Tag size={14} className="text-gray-400" /><span className={`px-2 py-0.5 rounded text-xs font-medium ${getCategoryColor(task.category)}`}>{t(`cat_${task.category?.toLowerCase()}`) || task.category}</span></div></td>
-                          <td className="px-6 py-4"><span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${getPriorityColor(task.priority)}`}>{t(`prio_${task.priority?.toLowerCase()}`) || task.priority}</span></td>
-                          <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400 font-mono">
-                            <div className="flex flex-col">
-                              <span>{task.dueDate}</span>
-                              {task.dueTime && <span className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1"><Clock size={10} />{task.dueTime}</span>}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 text-end">
-                            <button onClick={() => deleteTask(task.id)} className="text-red-400 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors md:opacity-0 md:group-hover:opacity-100 opacity-100">
-                              <Trash2 size={18} />
-                            </button>
-                          </td>
+                <div className="w-full">
+                  {/* Desktop Table View */}
+                  <div className="hidden md:block overflow-x-auto">
+                    <table className="w-full min-w-[600px]">
+                      <thead className="bg-gray-50/50 dark:bg-gray-700/30">
+                        <tr className="text-start text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                          <th className="px-6 py-4 text-start">{t('title')}</th>
+                          <th className="px-6 py-4 text-start">{t('progress')}</th>
+                          <th className="px-6 py-4 text-start">{t('cat')}</th>
+                          <th className="px-6 py-4 text-start">{t('prio')}</th>
+                          <th className="px-6 py-4 text-start">{t('due')}</th>
+                          <th className="px-6 py-4 text-end">{t('delete')}</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                        {filteredTasks.map(task => (
+                          <tr key={task.id} className="group hover:bg-white/80 dark:hover:bg-gray-700/50 transition-colors">
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <button onClick={() => updateTaskStatus(task.id, task.status === 'Completed' ? 'In Progress' : 'Completed')} className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${task.status === 'Completed' ? 'bg-green-500 border-green-500 scale-110' : 'border-gray-300 dark:border-gray-500 hover:border-indigo-500'}`}>
+                                  {task.status === 'Completed' && <CheckCircle2 size={12} className="text-white" />}
+                                </button>
+                                <div>
+                                  <p className={`font-medium ${task.status === 'Completed' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-white'}`}>{task.title}</p>
+                                  {task.description && <p className="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[200px]">{task.description}</p>}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4"><span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium ${task.status === 'Completed' ? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300' : 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'}`}>{task.status === 'Completed' ? t('done') : t('progress')}</span></td>
+                            <td className="px-6 py-4"><div className="flex items-center gap-2"><Tag size={14} className="text-gray-400" /><span className={`px-2 py-0.5 rounded text-xs font-medium ${getCategoryColor(task.category)}`}>{t(`cat_${task.category?.toLowerCase()}`) || task.category}</span></div></td>
+                            <td className="px-6 py-4"><span className={`px-2.5 py-0.5 rounded-full text-xs font-bold shadow-sm ${getPriorityColor(task.priority)}`}>{t(`prio_${task.priority?.toLowerCase()}`) || task.priority}</span></td>
+                            <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400 font-mono">
+                              <div className="flex flex-col">
+                                <span>{task.dueDate}</span>
+                                {task.dueTime && <span className="text-xs text-gray-400 dark:text-gray-500 flex items-center gap-1"><Clock size={10} />{task.dueTime}</span>}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-end">
+                              <button onClick={() => deleteTask(task.id)} className="text-red-400 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors md:opacity-0 md:group-hover:opacity-100 opacity-100">
+                                <Trash2 size={18} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Mobile Card View */}
+                  <div className="md:hidden flex flex-col p-4 gap-4">
+                    {filteredTasks.map(task => (
+                      <div key={task.id} className="bg-white/50 dark:bg-gray-700/30 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 flex flex-col gap-3 shadow-none">
+                        <div className="flex justify-between items-start">
+                          <div className="flex items-center gap-3">
+                            <button onClick={() => updateTaskStatus(task.id, task.status === 'Completed' ? 'In Progress' : 'Completed')} className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${task.status === 'Completed' ? 'bg-green-500 border-green-500 scale-110' : 'border-gray-300 dark:border-gray-500'}`}>
+                              {task.status === 'Completed' && <CheckCircle2 size={14} className="text-white" />}
+                            </button>
+                            <h3 className={`text-lg font-bold ${task.status === 'Completed' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-white'}`}>{task.title}</h3>
+                          </div>
+                          <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider shadow-sm ${getPriorityColor(task.priority)}`}>
+                            {t(`prio_${task.priority?.toLowerCase()}`) || task.priority}
+                          </span>
+                        </div>
+
+                        {task.description && <p className="text-sm text-gray-500 dark:text-gray-400 pl-9">{task.description}</p>}
+
+                        <div className="flex flex-wrap gap-2 pl-9 mt-1">
+                          <span className={`px-2 py-0.5 rounded text-xs font-medium ${getCategoryColor(task.category)}`}>
+                            {t(`cat_${task.category?.toLowerCase()}`) || task.category}
+                          </span>
+                          <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-mono bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded border border-gray-200 dark:border-gray-700">
+                            <Calendar size={12} /> {task.dueDate}
+                          </div>
+                          {task.dueTime && (
+                            <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-mono bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded border border-gray-200 dark:border-gray-700">
+                              <Clock size={12} /> {task.dueTime}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex justify-end pt-2 border-t border-gray-100 dark:border-gray-700 mt-2">
+                          <button onClick={() => deleteTask(task.id)} className="flex items-center gap-2 text-red-500 hover:text-red-600 dark:text-red-400 px-3 py-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-sm font-medium transition-colors">
+                            <Trash2 size={16} /> {t('delete')}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -333,7 +392,7 @@ const TaskManager = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 max-w-lg w-full scale-100 animate-in zoom-in-95 duration-200 border border-white/20 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 max-w-lg w-full scale-100 animate-in zoom-in-95 duration-200 border border-white/20 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2"><span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 p-2 rounded-lg"><Plus size={24} /></span>{t('create_title')}</h2>
               <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"><X size={24} /></button>
@@ -345,17 +404,40 @@ const TaskManager = () => {
                 <div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('cat')}</label><select value={newTask.category} onChange={(e) => setNewTask({ ...newTask, category: e.target.value })} className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl outline-none text-gray-800 dark:text-white">{categories.map(c => <option key={c} value={c}>{t(`cat_${c.toLowerCase()}`)}</option>)}</select></div>
                 <div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('prio')}</label><select value={newTask.priority} onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })} className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl outline-none text-gray-800 dark:text-white"><option value="Low">{t('prio_low')}</option><option value="Normal">{t('prio_medium')}</option><option value="Urgent">{t('prio_high')}</option></select></div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div><label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('due')}</label><input type="date" value={newTask.dueDate} onChange={(e) => setNewTask({ ...newTask, dueDate: e.target.value })} className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl outline-none text-gray-800 dark:text-white" /></div>
 
-                {/* Styled Time Input */}
+                {/* Styled Time Picker with Hour/Minute Labels */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('time')}</label>
-                  <div className="flex items-center bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500/20">
-                    <div className="px-3 py-2.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-300 border-r border-gray-200 dark:border-gray-600 flex items-center justify-center">
-                      <Clock size={18} />
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <label className="block text-[10px] uppercase font-bold text-gray-500 dark:text-gray-400 mb-0.5">{t('hour')}</label>
+                      <select
+                        value={currentHour}
+                        onChange={(e) => handleTimeChange('hour', e.target.value)}
+                        className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl outline-none text-gray-800 dark:text-white appearance-none text-center font-mono"
+                      >
+                        <option value="">--</option>
+                        {Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0')).map(h => (
+                          <option key={h} value={h}>{h}</option>
+                        ))}
+                      </select>
                     </div>
-                    <input type="time" value={newTask.dueTime} onChange={(e) => setNewTask({ ...newTask, dueTime: e.target.value })} className="w-full px-4 py-2.5 bg-transparent outline-none text-gray-800 dark:text-white" />
+                    <div className="flex items-end pb-3 text-gray-400 font-bold">:</div>
+                    <div className="flex-1">
+                      <label className="block text-[10px] uppercase font-bold text-gray-500 dark:text-gray-400 mb-0.5">{t('minute')}</label>
+                      <select
+                        value={currentMinute}
+                        onChange={(e) => handleTimeChange('minute', e.target.value)}
+                        className="w-full px-4 py-2.5 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl outline-none text-gray-800 dark:text-white appearance-none text-center font-mono"
+                      >
+                        <option value="">--</option>
+                        {Array.from({ length: 12 }, (_, i) => String(i * 5).padStart(2, '0')).map(m => (
+                          <option key={m} value={m}>{m}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
