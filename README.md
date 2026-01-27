@@ -19,7 +19,7 @@ A modern, responsive task management application built with React.js and deploye
 
 ## 🚀 Live Demo
 
-Visit the live application: [/MaMohm/ToDoListReact.git](https://github.com/MaMohm/ToDoListReact.git)
+Visit the live application: [/MaMohm/ToDoListReact.git](https://mamohm.github.io/ToDoListReact/)
 
 ## 🛠️ Technologies Used
 
