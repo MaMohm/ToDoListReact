@@ -6,6 +6,8 @@ A modern, responsive task management application built with React.js and deploye
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![GitHub Pages](https://img.shields.io/badge/deployed-GitHub%20Pages-success)
 
+Photo coming soon
+
 ## 🌟 Features
 
 - ✅ **Create Tasks** - Add tasks with title and optional description
