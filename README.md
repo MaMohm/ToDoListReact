@@ -6,7 +6,13 @@ A modern, responsive task management application built with React.js and deploye
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![GitHub Pages](https://img.shields.io/badge/deployed-GitHub%20Pages-success)
 
-Photo coming soon
+<img width="1891" height="707" alt="image" src="https://github.com/user-attachments/assets/2eec7ed0-ebe5-43c3-9b60-128b63a65f4b" />
+
+<br/>
+<img width="1887" height="784" alt="image" src="https://github.com/user-attachments/assets/fb81e16e-bd67-46f0-88c6-de07c6977581" />
+
+
+
 
 ## 🌟 Features
 
