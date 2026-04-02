@@ -188,12 +188,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Styling with [Tailwind CSS](https://tailwindcss.com/)
 - Built with [Create React App](https://create-react-app.dev/)
 
-## 📞 Support
-
-If you encounter any issues or have questions:
-- Open an issue on [GitHub Issues](https://github.com/MaMohm/ToDOList_React/issues)
-- Check existing issues for solutions
-
----
 
 ⭐ **Star this repository if you find it helpful!**
